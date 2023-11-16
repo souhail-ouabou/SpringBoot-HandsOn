@@ -1,11 +1,13 @@
 package com.shlo.app;
 import com.shlo.app.domain.dto.AuthorDto;
+import com.shlo.app.domain.dto.BookDto;
 import com.shlo.app.domain.entites.AuthorEntity;
 import com.shlo.app.domain.entites.BookEntity;
 
 public final class TestDataUtil {
     private TestDataUtil(){
     }
+
     public static AuthorEntity createTestAuthorEntityA() {
         return AuthorEntity.builder()
                 .id(1L)
@@ -43,6 +45,14 @@ public final class TestDataUtil {
                 .isbn("978-1-2345-6789-0")
                 .title("The Shadow in the Attic")
                 .authorEntity(authorEntity)
+                .build();
+    }
+
+    public static BookDto createTestBookDtoA(final AuthorDto authorDto) {
+        return BookDto.builder()
+                .isbn("978-1-2345-6789-0")
+                .title("The Shadow in the Attic")
+                .author(authorDto)
                 .build();
     }
 

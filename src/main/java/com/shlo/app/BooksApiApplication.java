@@ -1,13 +1,14 @@
 package com.shlo.app;
 
+import lombok.extern.java.Log;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class AppApplication {
+@Log
+public class BooksApiApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(AppApplication.class, args);
+		SpringApplication.run(BooksApiApplication.class, args);
 	}
-
 }
