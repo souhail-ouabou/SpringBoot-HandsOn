@@ -1,6 +1,8 @@
 package com.shlo.app.controllers;
 
+import com.shlo.app.domain.dto.AuthorDto;
 import com.shlo.app.domain.dto.BookDto;
+import com.shlo.app.domain.entites.AuthorEntity;
 import com.shlo.app.domain.entites.BookEntity;
 import com.shlo.app.mappers.Mapper;
 import com.shlo.app.services.BookService;
@@ -9,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -35,5 +38,13 @@ public class BookController {
         return books.stream()
                 .map(bookMapper::mapTo)
                 .collect(Collectors.toList());
+    }
+    @GetMapping(path = "/books/{isbn}")
+    public ResponseEntity<BookDto> getBook(@PathVariable("isbn") String isbn) {
+        Optional<BookEntity> foundBook = bookService.findOne(isbn);
+        return foundBook.map(bookEntity -> {
+            BookDto bookDto = bookMapper.mapTo(bookEntity);
+            return new ResponseEntity<>(bookDto, HttpStatus.OK);
+        }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }
