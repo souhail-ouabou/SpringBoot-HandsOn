@@ -6,6 +6,8 @@ import com.shlo.app.domain.entites.AuthorEntity;
 import com.shlo.app.domain.entites.BookEntity;
 import com.shlo.app.mappers.Mapper;
 import com.shlo.app.services.BookService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,12 +40,21 @@ public class BookController {
             return new ResponseEntity(savedUpdatedBookDto, HttpStatus.CREATED);
         }
     }
+/*
     @GetMapping(path = "/books")
     public List<BookDto> listBooks() {
         List<BookEntity> books = bookService.findAll();
         return books.stream()
                 .map(bookMapper::mapTo)
                 .collect(Collectors.toList());
+    }
+
+ */
+    @GetMapping(path = "/books")
+    public Page<BookDto> listBooks(Pageable pageable) {
+        Page<BookEntity> books = bookService.findAll(pageable);
+    return books.map(bookMapper::mapTo);
+
     }
     @GetMapping(path = "/books/{isbn}")
     public ResponseEntity<BookDto> getBook(@PathVariable("isbn") String isbn) {

@@ -3,6 +3,8 @@ package com.shlo.app.services.impl;
 import com.shlo.app.domain.entites.BookEntity;
 import com.shlo.app.repositories.BookRepository;
 import com.shlo.app.services.BookService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,6 +33,10 @@ public class BookServiceImpl implements BookService {
                         bookRepository.findAll().spliterator(),
                         false)
                 .collect(Collectors.toList());
+    }
+    @Override
+    public Page<BookEntity> findAll(Pageable pageable) {
+        return bookRepository.findAll(pageable);
     }
 
     @Override
