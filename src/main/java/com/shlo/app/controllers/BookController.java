@@ -40,7 +40,23 @@ public class BookController {
             return new ResponseEntity(savedUpdatedBookDto, HttpStatus.CREATED);
         }
     }
-/*
+
+    @PatchMapping(path = "/books/{isbn}")
+    public ResponseEntity<BookDto> partialUpdateBook(
+            @PathVariable("isbn") String isbn,
+            @RequestBody BookDto bookDto
+    ){
+        if(!bookService.isExists(isbn)){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        BookEntity bookEntity = bookMapper.mapFrom(bookDto);
+        BookEntity updatedBookEntity = bookService.partialUpdate(isbn, bookEntity);
+        return new ResponseEntity<>(
+                bookMapper.mapTo(updatedBookEntity),
+                HttpStatus.OK);
+
+    }
     @GetMapping(path = "/books")
     public List<BookDto> listBooks() {
         List<BookEntity> books = bookService.findAll();
@@ -49,13 +65,15 @@ public class BookController {
                 .collect(Collectors.toList());
     }
 
- */
+
+    /*
     @GetMapping(path = "/books")
     public Page<BookDto> listBooks(Pageable pageable) {
         Page<BookEntity> books = bookService.findAll(pageable);
     return books.map(bookMapper::mapTo);
 
     }
+     */
     @GetMapping(path = "/books/{isbn}")
     public ResponseEntity<BookDto> getBook(@PathVariable("isbn") String isbn) {
         Optional<BookEntity> foundBook = bookService.findOne(isbn);
