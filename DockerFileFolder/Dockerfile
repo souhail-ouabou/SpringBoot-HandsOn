@@ -1,4 +1,4 @@
 FROM openjdk:17-jdk-alpine
 MAINTAINER shlo.com
-COPY target/*.jar app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+COPY target/*.jar demo.jar
+ENTRYPOINT ["java","-jar","/demo.jar"]
